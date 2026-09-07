@@ -1,0 +1,141 @@
+Power Rangers RPG Character Builder — v0.27-exp Mobile VTT QoL
+Release verification report
+Date: 2026-09-07
+
+SCOPE
+-----
+Human-testing QoL pass built from v0.26-exp Deep Audit Fixes.
+Focus:
+- GM dark-theme text contrast
+- VTT control organization
+- first-class elevation controls / third-axis movement
+- app-wide mobile layout behavior
+- touch VTT navigation
+- mobile dialog/panel containment
+
+MMPR:NOIR homebrew payload was not modified.
+
+IMPLEMENTED
+-----------
+GM THEME
+- Explicit light foreground colors on dark GM command/combat/threat/check/VTT surfaces.
+- Dark GM form controls use light text/placeholders.
+- Light paper Ranger dossiers explicitly retain dark ink.
+
+VTT ORGANIZATION
+- Tactical Tools split into Navigate + Measure, Markup + Templates, GM Scene Layers, and Layer History groups.
+- Token HUD contains token-specific state only.
+- Map library + grid calibration moved into independent GM Scene panel.
+- Spatial Awareness remains independent.
+- Mobile bottom control bar exposes zoom/Fit, Tools, Token, Map, Range, Dice.
+
+ELEVATION
+- Persistent quick elevation dock for selected movable token.
+- +/- 5 ft controls, direct 5-ft numeric entry, Ground reset.
+- Token badge continues to display nonzero elevation.
+- Pre-combat elevation staging is free.
+- During the active combatant's turn, absolute vertical feet traveled are added to movement spent.
+- Multiplayer server owns canonical vertical movement accounting.
+- Elevation state snaps to 5-ft increments.
+
+MOBILE
+- Horizontal touch-scrolling primary navigation.
+- 16px phone form controls.
+- dynamic-viewport-bounded rule/confirm dialogs with internal scrolling.
+- VTT floating panels become bounded bottom-sheet panels on phones.
+- nonessential VTT mobile header branding hidden so Return/End Session remain reachable.
+- closed dice dock hidden on mobile VTT; DICE button opens it above the bottom bar.
+- one-finger empty-map pan in Select/Pan mode.
+- token drag remains one-finger movement.
+- two-finger pinch zoom centered on gesture.
+- midpoint motion during pinch pans naturally.
+- double-tap quick zoom.
+- live zoom transform avoids full VTT rebuild during gesture frames.
+- VTT render preserves viewport scroll position across ordinary UI rerenders.
+
+COMPATIBILITY
+-------------
+Client version: 0.27-exp
+Server version: 0.27-exp
+Multiplayer protocol: 7 (unchanged from v0.26)
+Recommended pairing: v0.27 client + v0.27 server because elevation movement accounting changed server-side.
+
+NOIR DATA INTEGRITY
+-------------------
+Extraction boundary: from `const NOIR_PACK_DATA=` through before `function withPackSource`.
+v0.26 bytes: 49,931
+v0.27 bytes: 49,931
+SHA-256: d125da6af8614ee5d5699b88f21d3255a59458c1a4ba2dd048d2e057c29e5710
+Comparison: byte-for-byte identical
+
+STATIC / INVENTORY
+------------------
+Named client functions: 853
+Unique named client functions: 853
+Duplicate named client functions: 0
+v0.25 gameplay function baseline: 808
+Missing baseline functions: 0
+Client JavaScript syntax: PASS
+Server JavaScript syntax: PASS
+
+TEST SUITES
+-----------
+test_assets_protocol_v027.js                 11 / 11 PASS
+test_assets_static_v027.js                   21 / 21 PASS
+test_client_regression_v027.js               32 / 32 PASS
+test_client_static_v027_regression.js        24 / 24 PASS
+test_deep_audit_protocol_v027.js             17 / 17 PASS
+test_deep_audit_static_v027.js               12 / 12 PASS
+test_mobile_vtt_protocol_v027.js              6 /  6 PASS
+test_protocol_regression_v027.js             20 / 20 PASS
+test_protocol_v027_regression.js             11 / 11 PASS
+test_tactical_tools_protocol_v027.js         18 / 18 PASS
+test_tactical_tools_static_v027.js           19 / 19 PASS
+test_deep_audit_browser_v027.py              18 / 18 PASS
+test_mobile_vtt_qol_v027.py                  16 / 16 PASS
+
+TOTAL: 225 / 225 behavioral assertions PASS
+
+MOBILE BROWSER QA
+-----------------
+Headless Chromium mobile viewport: 390 x 844 CSS px
+Verified:
+- no page-level horizontal bleed
+- all primary app modes remain inside phone viewport
+- mobile nav is horizontally touch-scrollable
+- form controls use phone-safe sizing
+- confirm/rule dialogs remain inside viewport
+- Tools/Token/Map/Range VTT panels remain inside viewport
+- VTT panel responsibilities are separated
+- GM dark surfaces expose readable light text
+- free pre-combat elevation staging
+- combat vertical movement spending
+- visible elevation controls
+- one-finger map pan
+- pinch zoom
+- double-tap zoom
+- no browser runtime exceptions
+
+Visual QA capture: MOBILE_VTT_QA_v0.27.png
+
+RELEASE VERDICT
+---------------
+PASS for experimental-branch release packaging.
+Protected v0.18.0 standalone trunk remains untouched.
+Public hosted multiplayer still requires deployment of multiplayer-server-v0.27-exp.js before remote v0.27 behavior can be considered live-host verified.
+
+CLEAN RELEASE PACKAGE VERIFICATION
+----------------------------------
+The candidate release ZIP was extracted into a fresh directory and every bundled test was rerun from the extracted copy.
+- 13 / 13 bundled suites passed
+- 225 / 225 behavioral assertions passed
+- extracted client JavaScript syntax: PASS
+- extracted server JavaScript syntax: PASS
+- ZIP integrity test: PASS
+
+FINAL FILE HASHES
+-----------------
+Client SHA-256: edd480be0e92515e63dcb425902dcc8fc396f6ecf8d926d3eee4adee94bfb68b
+Server SHA-256: c8c45c063d135eb7113a3099c5998618e32470ec01747cdac808c43e272d0e38
+Mobile QA screenshot SHA-256: 2714d1a0bf380b5c64bd7d06a58e6bfe08c78960aa547249db66d8351d2a2db9
+The final ZIP hash is reported alongside the release artifact because a ZIP cannot truthfully contain its own final digest without changing that digest.
