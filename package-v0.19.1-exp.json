@@ -1,0 +1,13 @@
+{
+  "name": "power-rangers-rpg-multiplayer-exp",
+  "version": "0.19.1-exp",
+  "private": true,
+  "description": "Dependency-free experimental realtime room server for the Power Rangers RPG Character Builder multiplayer branch.",
+  "main": "multiplayer-server-v0.19.1-exp.js",
+  "scripts": {
+    "start": "node multiplayer-server-v0.19.1-exp.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
